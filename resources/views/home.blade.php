@@ -15,8 +15,8 @@
             </div>
             <div class="card ms-2">
                 Catalogo mangas
-                {{var_dump($catalogo->genders)}}
-                {{-- @foreach ($catalogo as $item)
+                {{-- {{var_dump($catalogo)}} --}}
+                @foreach ($catalogo as $item)
                     <section>
                         <tr>
                             <td>{{ $item->name }}</td>
@@ -29,7 +29,7 @@
                             </td>
                         </tr>
                     </section>
-                    @endforeach --}}
+                    @endforeach
             </div>
         </div>
     </section>

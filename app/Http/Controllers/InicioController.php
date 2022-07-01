@@ -15,9 +15,10 @@ class InicioController extends Controller
         if ($gender == null) {
             $catalogo = DB::table('mangas')->get();
         } else {
-            $catalogo = Manga::all();
+            $id = DB::table('genders')->where('enum_gender', $gender)->get();
+            $catalogo = Gender::find($id[0]->id);
             // $catalogo = $catalogo->genders()->where('enum_gender', $gender)->get();
         }
-        return view("home", ["genders" => $genders, "catalogo" => $catalogo->toArray()]);
+        return view("home", ["genders" => $genders, "catalogo" => $catalogo->mangas]);
     }
 }
