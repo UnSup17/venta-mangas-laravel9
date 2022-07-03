@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {return redirect()->route('home');});
 
-Route::get('/home/{gender?}', [App\Http\Controllers\InicioController::class, 'home'])->name('home');
+Route::get('/home', [App\Http\Controllers\InicioController::class, 'home'])->name('home');
 Route::get('/mangas', [App\Http\Controllers\MangasController::class, 'list'])->name('mangas');
 
 Route::get('/mangas/añadir', [App\Http\Controllers\MangasController::class, 'form_create'])->name('form_create_manga');

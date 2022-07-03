@@ -5,31 +5,34 @@
         <div class="d-flex">
             <div class="card">
                 <div>
-                    Generos
-                    <ul>
+                    <h5>Filtro por género</h5>
+                    <form action="{{route('home')}}">
                         @foreach ($genders as $gender)
-                            <li> <a href="{{route('home', ['gender' => $gender->enum_gender])}}">{{ ($gender->enum_gender) }}</a> </li>
+                            <div><input value="{{$gender->enum_gender}}" type="checkbox" name="{{'gender'.$gender->id}}" id="{{'gender-'.$gender->enum_gender}}"><label for="{{'gender-'.$gender->enum_gender}}">{{$gender->enum_gender}}</label></div>
                         @endforeach
-                    </ul>
+                        <button>Filtrar</button>
+                    </form>
                 </div>
             </div>
             <div class="card ms-2">
-                Catalogo mangas
-                {{-- {{var_dump($catalogo)}} --}}
-                @foreach ($catalogo as $item)
-                    <section>
-                        <tr>
-                            <td>{{ $item->name }}</td>
-                            <td><a class="miniatura"><img src="{{$item->url_portrait}}" alt="portada"></td>
-                            <td>{{$item->synopsis}}</td>
-                            <td>
-                                <button><a href="{{ route('read_manga', ['manga' => $item->name, 'id' => $item->id])}}">Leer</a></button>
-                                <button><a href="{{ route('form_update_manga', ['manga' => $item->name, 'id' => $item->id])}}">Actualizar</a></button>
-                                <button><a class="delete" attr-url="{{ route('delete_manga', ['manga' => $item->name, 'id' => $item->id])}}">Eliminar</a></button>
-                            </td>
-                        </tr>
+                <div class="container">
+                    <section class="section">
+                        <div class="section_content">
+                            @foreach ($catalogo as $item)
+                            <div class="section_item window window-default">
+                                <a href="{{ route('read_manga', ['manga' => $item->name, 'id' => $item->id])}}">
+                                    <div class="window_content">
+                                        <img class="portada_manga" src="{{$item->url_portrait}}" alt="portada">
+                                        <div class="manga_name">
+                                            <button>{{$item->name}}</button>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            @endforeach
+                        </div>
                     </section>
-                    @endforeach
+                </div>
             </div>
         </div>
     </section>
