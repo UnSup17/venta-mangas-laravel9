@@ -20,7 +20,11 @@
                         <b>Sinopsis:</b><br>{{$info_manga->synopsis}}<br><br>
                     </section>
                     <section>
-                        Lista de mangas (en progreso)
+                        <ul>
+                            @foreach ($lista_tomos as $tomo)
+                                <li>{{$tomo->number_tome.' - '.$tomo->number_pages.' - $'.$tomo->price}}</li>
+                            @endforeach
+                        </ul>
                     </section>
                 </section>
             </section>

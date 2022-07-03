@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\Manga;
+use App\Models\Tome;
 
 class MangasController extends Controller
 {
@@ -37,7 +38,7 @@ class MangasController extends Controller
     {
         $info_manga = DB::table('mangas')->where('id', $id)->first();
         $info_manga->published_at = explode("-", $info_manga->published_at)[0];
-        return view("crud.read_manga", ["info_manga" => $info_manga]);
+        return view("crud.read_manga", ["info_manga" => $info_manga, "lista_tomos"=>Tome::where('manga_id', $id)->get()]);
     }
 
     function form_update($id, $manga)
