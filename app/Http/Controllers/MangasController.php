@@ -34,11 +34,12 @@ class MangasController extends Controller
         return redirect()->route('mangas');
     }
 
-    function read($id, $manga)
+    function read($id, $manga, Request $request)
     {
-        $info_manga = DB::table('mangas')->where('id', $id)->first();
+        $info_manga = Manga::find($id);
         $info_manga->published_at = explode("-", $info_manga->published_at)[0];
-        return view("crud.read_manga", ["info_manga" => $info_manga, "lista_tomos"=>Tome::where('manga_id', $id)->get()]);
+        $lista_tomos = Tome::where('manga_id', $id)->orderBy('id', 'desc')->get();
+        return view("crud.read_manga", ["info_manga" => $info_manga, "lista_tomos"=>$lista_tomos]);
     }
 
     function form_update($id, $manga)

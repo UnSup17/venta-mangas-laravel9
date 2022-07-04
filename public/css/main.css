@@ -87,4 +87,29 @@ button a {
 .window-default .portada_manga {
   height: 380px;
   width: 100%;
+}
+
+.info-tomo {
+  width: 100%;
+  text-decoration: none;
+  color: darkslategrey;
+  padding: 0.5rem;
+  border: 1px solid rgb(233, 232, 232);
+  text-align: center;
+  align-items: center;
+}
+
+.info-tomo:hover {
+  color: darkslategrey;
+  background-color: whitesmoke;
+}
+
+.boton-carrito {
+  color: darkslategrey;
+  text-decoration: none;
+  margin-right: 0.5rem;
+}
+
+.input-cantidad {
+  width: 40px;
 }/*# sourceMappingURL=main.css.map */

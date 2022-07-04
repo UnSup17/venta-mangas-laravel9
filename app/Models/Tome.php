@@ -4,10 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Tome extends Model
 {
     use HasFactory;
+
+    public function manga()
+    {
+        return $this->belongsTo(Manga::class);
+    }
 
     protected $fillable = [
         'id',
@@ -16,4 +22,13 @@ class Tome extends Model
         'number_pages',
         'price',
     ];
+
+    public static function get_ids_carrito(Request $request) {
+        $lista_ids = [];
+        $carrito = $request->session()->get('car');
+        foreach ($carrito as $key => $value) {
+            array_push($lista_ids, $key);
+        }
+        return self::find($lista_ids)->get();
+    }
 }

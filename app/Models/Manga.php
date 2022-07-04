@@ -17,6 +17,10 @@ class Manga extends Model
         return $this->belongsToMany(Gender::class);
     }
 
+    public function tomes() {
+        return $this->hasMany(Tome::class);
+    }
+
     protected $fillable = [
         'name',
         'url_portrait',
