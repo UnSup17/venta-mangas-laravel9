@@ -2,6 +2,17 @@
 @section('content')
     <section class="container dialog-content">
         <section class="card">
+            @if (session('success'))
+                <div class="alert alert-success alert-block m-0">
+                    <button onclick="this.parentElement.style.display = 'none'" id="alert-btn" data-dismiss="alert" class="btn position-absolute top-50 translate-middle end-0">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                    <strong>{{ session('success') }}</strong>
+                </div>
+                @php
+                    session()->forget('success');
+                @endphp
+            @endif
             <section class="modal-header">
                 <h5 class="modal-title"><b>{{ $info_manga->name }}</b></h5>
             </section>
@@ -20,8 +31,26 @@
                         </section>
                         <section><b>Fecha: </b>{{ $info_manga->published_at }}</section>
                         <section><b>Periodicidad: </b>{{ $info_manga->periodicity }}</section>
+                        <section>
+                            <b>Creadores:</b><br>
+                            @foreach ($creadores as $creador)
+                                {{ '('.$creador->role.') '.$creador->name.' '.$creador->last_name }} <br>
+                            @endforeach
+                        </section>
                     </section>
                     <section class="px-3">
+                        <section>
+                            <i class="fa-solid fa-tags"></i>
+                            Generos:
+                            <section class="d-flex">
+                                @foreach ($genders as $gender)
+                                    <div class="genero">
+                                        <i class="fa-solid fa-tag"></i>
+                                        {{ $gender->enum_gender }}
+                                    </div>
+                                @endforeach
+                            </section>
+                        </section>
                         <section>
                             <b>Sinopsis:</b><br>{{ $info_manga->synopsis }}<br><br>
                         </section>
@@ -56,15 +85,4 @@
             </section>
         </section>
     </section>
-@if (session('success'))
-    <div class="alert alert-success alert-block m-0">
-        <button onclick="this.parentElement.style.display = 'none'" id="alert-btn" data-dismiss="alert" class="btn position-absolute top-50 translate-middle end-0">
-            <i class="fa-solid fa-times"></i>
-        </button>
-        <strong>{{ session('success') }}</strong>
-    </div>
-    @php
-        session()->forget('success');
-    @endphp
-@endif
 @endsection

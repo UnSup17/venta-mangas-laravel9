@@ -39,7 +39,14 @@ class MangasController extends Controller
         $info_manga = Manga::find($id);
         $info_manga->published_at = explode("-", $info_manga->published_at)[0];
         $lista_tomos = Tome::where('manga_id', $id)->orderBy('id', 'desc')->get();
-        return view("crud.read_manga", ["info_manga" => $info_manga, "lista_tomos"=>$lista_tomos]);
+        $creadores = $info_manga->authors()->get();
+        $genders = $info_manga->genders()->get();
+        return view("crud.read_manga", [
+            "info_manga" => $info_manga,
+            "lista_tomos"=>$lista_tomos,
+            "creadores" => $creadores,
+            "genders" => $genders,
+        ]);
     }
 
     function form_update($id, $manga)
