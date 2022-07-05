@@ -25,7 +25,6 @@ Route::get('/mangas/leer/{id}-{manga}', [App\Http\Controllers\MangasController::
 
 Route::post('/add_item/{id}-{manga}', [App\Http\Controllers\CarritoController::class, 'add_item'])->name('add_item');
 
-
 Route::get('/mangas/actualizar/{id}-{manga}', [App\Http\Controllers\MangasController::class, 'form_update'])->name('form_update_manga');
 Route::post('/update_manga', [App\Http\Controllers\MangasController::class, 'update'])->name('update_manga');
 
