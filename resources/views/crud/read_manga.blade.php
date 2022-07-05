@@ -43,7 +43,7 @@
                                     <i class="fa-solid fa-basket-shopping"></i>
                                     Agregar
                                 </button>
-                                <input class="input-cantidad" type="number" name="item_quantity" value="0" min="0" max="12">
+                                <input class="input-cantidad" type="number" name="item_quantity" value="1" min="1" max="12">
                                 <input type="hidden" name="item_id" value="{{$item->id}}">
                             </form>
                         </div>

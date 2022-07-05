@@ -31,16 +31,17 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 @if (Route::currentRouteName() == "/dashboard")
-
                 @else
-                    <div class="d-flex">
+                    <div>
                         <a class="navbar-brand" href="{{ url('/home') }}">
                             MisMangas
                         </a>
-                        <form action="#" method="get">
+                    </div>
+                    <div>
+                        <form action="{{ route('home') }}" method="get">
                             @csrf
-                            <input type="text">
-                            <button>
+                            <input class="barra-busqueda" type="text" name="manga_name">
+                            <button type="submit">
                                 <i class="fa-solid fa-search"></i>
                             </button>
                         </form>

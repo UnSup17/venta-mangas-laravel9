@@ -35,7 +35,6 @@ button a {
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
-  margin-bottom: 25px;
 }
 
 .section {
@@ -45,12 +44,12 @@ button a {
 .section_content {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-evenly;
   margin: -15px;
 }
 
 .section_item {
-  width: 255px;
+  width: 230px;
   margin: 15px;
   flex-shrink: 0;
 }
@@ -62,10 +61,6 @@ button a {
   display: flex;
   flex-direction: column;
   transition: all 0.4s;
-}
-
-.window-default {
-  height: 380px;
 }
 
 .window_content {
@@ -85,7 +80,7 @@ button a {
 }
 
 .window-default .portada_manga {
-  height: 380px;
+  height: 355px;
   width: 100%;
 }
 
@@ -112,4 +107,21 @@ button a {
 
 .input-cantidad {
   width: 40px;
+}
+
+.rellenar-espacio {
+  width: 100%;
+}
+
+.barra-busqueda {
+  width: 300px;
+}
+
+@media screen and (max-width: 770px) {
+  .barra-busqueda {
+    width: 135px;
+  }
+}
+.tabla-generos {
+  width: 120px;
 }/*# sourceMappingURL=main.css.map */
