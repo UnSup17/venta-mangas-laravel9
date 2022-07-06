@@ -11,7 +11,8 @@ class CarritoController extends Controller
         $data = $request->all();
         $carrito = $request->session()->get('car');
         $id = $data['item_id'];
-        $carrito[Tome::find($id)->get()] = intval($data['item_quantity']);
+        $tomo = Tome::find($id)->get()[0];
+        $carrito[Tome::find($id)->get()[0]] = intval($data['item_quantity']);
         $request->session()->put('car', $carrito);
         $request->session()->put('success', 'Agregado correctamente');
         return back();
