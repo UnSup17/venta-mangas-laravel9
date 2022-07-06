@@ -13,16 +13,16 @@ class InicioController extends Controller
     {
         $genders = Gender::all()->sortBy('enum_gender');
         $conditions = $request->all();
-        if (empty($conditions) || $conditions['selected_id'] == 'limpiar') {
-            return view("home", [
-                "genders" => $genders,
-                "catalogo" => Manga::all(),
-            ]);
-        }
         if (isset($conditions['manga_name'])) {
             return view("home", [
                 "genders" => $genders,
                 "catalogo" => Manga::where('name', 'like', '%'.$conditions['manga_name'].'%')->get()
+            ]);
+        }
+        if (empty($conditions) || $conditions['selected_id'] == 'limpiar') {
+            return view("home", [
+                "genders" => $genders,
+                "catalogo" => Manga::all(),
             ]);
         }
         return view("home", [

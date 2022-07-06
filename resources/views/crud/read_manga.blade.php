@@ -54,8 +54,12 @@
                         <section>
                             <b>Sinopsis:</b><br>{{ $info_manga->synopsis }}<br><br>
                         </section>
-                        <section>
+                        <section class="lista-overflow">
                             @foreach ($lista_tomos as $item)
+                                @php
+                                    $flag = false;
+                                    if(array_key_exists($item->id, session()->get('car'))) $flag = true
+                                @endphp
                                 <div class="d-flex info-tomo">
                                     <div class="grey col-md-2 text-left strong">Capítulo: {{ $item->number_tome }}</div>
                                     <div class="grey col-md-2 text-left">
@@ -69,11 +73,23 @@
                                     <form class="grey col-md-5 text-right strong" method="POST"
                                         action="{{ route('add_item', ['manga' => $info_manga->name, 'id' => $info_manga->id]) }}">
                                         @csrf
-                                        <button type="submit" class="boton-carrito">
-                                            <i class="fa-solid fa-basket-shopping"></i>
-                                            Agregar
-                                        </button>
-                                        <input class="input-cantidad" type="number" name="item_quantity" value="1"
+                                        @if($flag)
+                                            <a class="boton-carrito boton-eliminar btn" href="{{ route('remove_item', ['id'=>$item->id]) }}">
+                                                <i class="fa-solid fa-times"></i>
+                                                Eliminar
+                                            </a>
+                                        @else
+                                            <button type="submit" class="boton-carrito boton-agregar btn">
+                                                <i class="fa-solid fa-basket-shopping"></i>
+                                                Agregar
+                                            </button>
+                                        @endif
+                                        <input class="input-cantidad" type="number" name="item_quantity"
+                                            @if($flag)
+                                                value= '{{ session()->get('car')[$item->id] }}' disabled
+                                            @else
+                                                value= '1'
+                                            @endif
                                             min="1" max="12">
                                         <input type="hidden" name="item_id" value="{{ $item->id }}">
                                     </form>

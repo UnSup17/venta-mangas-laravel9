@@ -3,7 +3,7 @@
 <section class="container dialog-content">
     <section class="modal-body">
         <div class="d-flex">
-            <div class="card p-2 tabla-generos">
+            <div class="p-2 tabla-generos">
                 <div>
                     <h5 class="pt-2">Filtro</h5>
                     <hr>

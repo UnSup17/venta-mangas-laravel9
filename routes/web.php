@@ -23,7 +23,9 @@ Route::post('/create_manga', [App\Http\Controllers\MangasController::class, 'cre
 
 Route::get('/mangas/leer/{id}-{manga}', [App\Http\Controllers\MangasController::class, 'read'])->name('read_manga');
 
-Route::post('/add_item/{id}-{manga}', [App\Http\Controllers\CarritoController::class, 'add_item'])->name('add_item');
+Route::post('/add_item/{id}', [App\Http\Controllers\CarritoController::class, 'add_item'])->name('add_item');
+Route::get('/remove_item/{id}', [App\Http\Controllers\CarritoController::class, 'remove_item'])->name('remove_item');
+Route::get('/shopping', [App\Http\Controllers\CarritoController::class, 'list'])->name('shopping');
 
 Route::get('/mangas/actualizar/{id}-{manga}', [App\Http\Controllers\MangasController::class, 'form_update'])->name('form_update_manga');
 Route::post('/update_manga', [App\Http\Controllers\MangasController::class, 'update'])->name('update_manga');

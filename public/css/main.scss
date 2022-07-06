@@ -136,5 +136,18 @@ button a {
     border: 1px solid lightgray;
 }
 
-//Socorro jesus
+.boton-eliminar {
+    background-color: rgb(235, 97, 33);
+}
+
+.boton-agregar {
+    background-color: darkcyan;
+    color: whitesmoke;
+}
+
+.lista-overflow {
+    height: 300px;
+    overflow-y: scroll;
+}
+
 // https://stackoverflow.com/questions/37369452/use-laravel-seed-and-sql-files-to-populate-database

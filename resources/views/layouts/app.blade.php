@@ -34,7 +34,8 @@
                 @else
                     <div>
                         <a class="navbar-brand" href="{{ url('/home') }}">
-                            MisMangas
+                            <i class="fa-solid fa-book-open"></i>
+                            <b>MisMangas</b>
                         </a>
                     </div>
                     <div>
@@ -48,7 +49,9 @@
                     </div>
                     <div>
                         <button data-bs-toggle="collapse" data-bs-target="#header_shopping_cart">
-                            <i class="fa-solid fa-cart-shopping"></i>
+                            <a href="{{ route('shopping', [])}}">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                            </a>
                         </button>
                         <button>
                             <i class="fa-solid fa-user-circle"></i>
