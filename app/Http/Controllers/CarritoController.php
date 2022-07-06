@@ -8,19 +8,14 @@ use Illuminate\Http\Request;
 class CarritoController extends Controller
 {
     function add_item($id, Request $request) {
-        // $data = $request->all();
-        // $carrito = $request->session()->get('car');
-        // $id = $data['item_id'];
-        // $tomo = Tome::find($id)->get()[0];
-        // $carrito[Tome::find($id)->get()[0]] = intval($data['item_quantity']);
-        // $request->session()->put('car', $carrito);
-        // $request->session()->put('success', 'Agregado correctamente');
-        var_dump($id);
-        $data = Tome::find($id);
+        $data = $request->all();
+        $tomo = Tome::find($id);
+        $tomo['cantidad'] = intval($data['item_quantity']);
         $array = [];
-        array_push($array, $data);
+        array_push($array, $tomo);
         $request->session()->put('car', $array);
-        // return back();
+        $request->session()->put('success', 'Agregado correctamente');
+        return back();
     }
 
     function list() {
@@ -44,5 +39,11 @@ class CarritoController extends Controller
         $request->session()->put('car', $carrito);
         $request->session()->put('success', 'Eliminado correctamente');
         return back();
+    }
+
+    function delete_car(Request $request) {
+        $request->session()->forget('car');
+        var_dump($request->session()->get('car'));
+        // return back();
     }
 }

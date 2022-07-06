@@ -59,12 +59,13 @@
                                 @php
                                     $flag = false;
                                     $car = session()->get('car');
-                                    var_dump($car);
                                     if (null !== $car) {
-                                        foreach ($car as $tomo => $cantidad) {
-                                            var_dump($tomo);
+                                        foreach ($car as $posicion => $tomo) {
+                                            if($tomo->id == $item->id) {
+                                                $flag = true;
+                                                $cantidad = $tomo->cantidad;
+                                            }
                                         }
-                                        // if(array_key_exists($item->id, $car)) {$flag = true;}
                                     }
                                 @endphp
                                 <div class="d-flex info-tomo">
@@ -93,7 +94,7 @@
                                         @endif
                                         <input class="input-cantidad" type="number" name="item_quantity"
                                             @if($flag)
-                                                value= '{{ session()->get('car')[$item->id] }}' disabled
+                                                value= '{{$cantidad}}' disabled
                                             @else
                                                 value= '1'
                                             @endif
@@ -103,6 +104,10 @@
                                 </div>
                             @endforeach
                         </section>
+                        <a class="boton-carrito boton-eliminar btn" href="{{ route('delete_car') }}">
+                            <i class="fa-solid fa-times"></i>
+                            Eliminar Carrito
+                        </a>
                     </section>
                 </section>
             </section>
