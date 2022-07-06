@@ -58,7 +58,14 @@
                             @foreach ($lista_tomos as $item)
                                 @php
                                     $flag = false;
-                                    if(array_key_exists($item->id, session()->get('car'))) $flag = true
+                                    $car = session()->get('car');
+                                    var_dump($car);
+                                    if (null !== $car) {
+                                        foreach ($car as $tomo => $cantidad) {
+                                            var_dump($tomo);
+                                        }
+                                        // if(array_key_exists($item->id, $car)) {$flag = true;}
+                                    }
                                 @endphp
                                 <div class="d-flex info-tomo">
                                     <div class="grey col-md-2 text-left strong">Capítulo: {{ $item->number_tome }}</div>
@@ -71,7 +78,7 @@
                                         Precio: {{ $item->price }}
                                     </div>
                                     <form class="grey col-md-5 text-right strong" method="POST"
-                                        action="{{ route('add_item', ['manga' => $info_manga->name, 'id' => $info_manga->id]) }}">
+                                        action="{{ route('add_item', ['manga' => $info_manga->name, 'id' => $item->id]) }}">
                                         @csrf
                                         @if($flag)
                                             <a class="boton-carrito boton-eliminar btn" href="{{ route('remove_item', ['id'=>$item->id]) }}">
