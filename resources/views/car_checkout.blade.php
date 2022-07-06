@@ -6,7 +6,9 @@
                 <div class="container pb-4">
                     <section class="section section_content">
                         <section class="lista-overflow">
-                            @foreach ($carrito as $item)
+                            {{ var_dump($items_carrito, $carrito)
+                            }}
+                            @foreach ($items_carrito as $item)
                                 @php
                                     $flag = false;
                                     if(array_key_exists($item->id, session()->get('car'))) $flag = true

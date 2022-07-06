@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tome;
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 
 class CarritoController extends Controller
@@ -11,7 +10,8 @@ class CarritoController extends Controller
     function add_item($id, Request $request) {
         $data = $request->all();
         $carrito = $request->session()->get('car');
-        $carrito[$data['item_id']] = intval($data['item_quantity']);
+        $id = $data['item_id'];
+        $carrito[Tome::find($id)->get()] = intval($data['item_quantity']);
         $request->session()->put('car', $carrito);
         $request->session()->put('success', 'Agregado correctamente');
         return back();
@@ -19,7 +19,17 @@ class CarritoController extends Controller
 
     function list() {
         $carrito = session()->get('car');
-        return view("car_checkout", ["carrito" => $carrito]);
+        $arrays = [];
+        foreach ($carrito as $key => $value) {
+            array_push(
+                $arrays, ['id', '=', $key]
+            );
+        }
+        $items_carrito = Tome::orWhere('id', $carrito)->get();
+        return view("car_checkout", [
+            "carrito" => $carrito,
+            "items_carrito"=>$items_carrito
+        ]);
     }
 
     function remove_item($id, Request $request) {
