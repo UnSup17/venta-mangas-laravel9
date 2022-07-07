@@ -145,4 +145,12 @@ button a {
 .lista-overflow {
   height: 300px;
   overflow-y: scroll;
+}
+
+.info-carrito {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  margin: 0px 10px;
+  padding: 10px;
 }/*# sourceMappingURL=main.css.map */

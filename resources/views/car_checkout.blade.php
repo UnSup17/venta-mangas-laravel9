@@ -2,28 +2,38 @@
 @section("content")
 <section class="container dialog-content">
     <section class="modal-body d-flex">
-            <div class="card ms-2 rellenar-espacio">
-                <div class="container pb-4">
-                    <section class="section section_content">
-                        <section class="lista-overflow">
-                            {{ var_dump($items_carrito, $carrito)
-                            }}
+        <section class="card ms-2 rellenar-espacio">
+            <section class="pb-4">
+                <section class="section">
+                    {{-- <section class="lista-overflow"> --}}
+                    {{-- <section> --}}
+                        {{-- {{ var_dump($items_carrito) }} --}}
+                        {{-- @if(empty($items_carrito))
+                            Carrito vacio
+                        @else
+                        {{ var_dump($items_carrito  ) }} --}}
+                        @php
+                            $items_carrito = session()->get('car');
+                        @endphp
                             @foreach ($items_carrito as $item)
                                 @php
                                     $flag = false;
                                     if(array_key_exists($item->id, session()->get('car'))) $flag = true
                                 @endphp
-                                <div class="d-flex info-tomo">
-                                    <div class="grey col-md-2 text-left strong">Capítulo: {{ $item->number_tome }}</div>
-                                    <div class="grey col-md-2 text-left">
+                                <section class="d-flex info-tomo">
+                                    <section class="grey col-md-2 text-left strong">Capítulo: {{ $item->number_tome }}</section>
+                                    <section class="grey col-md-2 text-left">
                                         <i class="fa-solid fa-list-ul"></i>
                                         Páginas: {{ $item->number_pages }}
-                                    </div>
-                                    <div class="grey col-md-3 text-left">
+                                    </section>
+                                    <section class="grey col-md-3 text-left">
                                         <i class="fa-solid fa-dollar-sign"></i>
                                         Precio: {{ $item->price }}
-                                    </div>
-                                    <form class="grey col-md-5 text-right strong" method="POST"
+                                    </section>
+                                    <section>
+                                        Manga: {{ $item->manga->name }}
+                                    </section>
+                                    {{-- <form class="grey col-md-5 text-right strong" method="POST"
                                         action="{{ route('add_item', ['manga' => $info_manga->name, 'id' => $info_manga->id]) }}">
                                         @csrf
                                         @if($flag)
@@ -45,12 +55,19 @@
                                             @endif
                                             min="1" max="12">
                                         <input type="hidden" name="item_id" value="{{ $item->id }}">
-                                    </form>
-                                </div>
+                                    </form> --}}
+                                </section>
                             @endforeach
+                        {{-- @endif --}}
                     </section>
-                </div>
-            </div>
+                {{-- </section> --}}
+            </section>
+        </section>
+        <section>
+            <section class="card info-carrito">
+                Info carrito
+            </section>
+        </section>
     </section>
 </section>
 @endsection

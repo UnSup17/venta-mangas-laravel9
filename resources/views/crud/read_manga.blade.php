@@ -104,6 +104,7 @@
                                 </div>
                             @endforeach
                         </section>
+                        <br>
                         <a class="boton-carrito boton-eliminar btn" href="{{ route('delete_car') }}">
                             <i class="fa-solid fa-times"></i>
                             Eliminar Carrito
