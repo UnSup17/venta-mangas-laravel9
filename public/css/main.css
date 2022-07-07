@@ -153,4 +153,31 @@ button a {
   top: 0;
   margin: 0px 10px;
   padding: 10px;
+  width: 200px;
+}
+
+.miniatura-tomo-carrito {
+  height: 150px;
+  width: 100px;
+}
+
+.miniatura-tomo-carrito img {
+  height: inherit;
+  width: inherit;
+}
+
+.item-car {
+  margin: 0px 25px;
+}
+
+.mensaje-carrito-vacio {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  font-size: large;
+  height: 400px;
+}
+
+.boton-editar {
+  background-color: burlywood;
 }/*# sourceMappingURL=main.css.map */

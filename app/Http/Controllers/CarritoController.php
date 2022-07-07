@@ -22,26 +22,15 @@ class CarritoController extends Controller
     }
 
     function list(Request $request) {
-        // if (!$request->session()->has('car'))
-        //     return view("car_checkout", [
-        //         "items_carrito"=>[]
-        // ]);
-        // $carrito = session()->get('car');
-        // $arrays = [];
-        // foreach ($carrito as $key => $value) {
-        //     array_push(
-        //         $arrays, ['id', '=', $value->id]
-        //     );
-        // }
+        if (count($request->session()->get('car')) > 0) {
+            return view("car_checkout");
+        }
+        $request->session()->put('success', 'Carrito vacío, añada items');
+        return redirect()->route('home');
+    }
 
-        // $items_carrito = Tome::where('id', 0)
-        //                         ->orWhere($arrays)->get();
-        // var_dump($items_carrito);
-        // return view("car_checkout", [
-        //     "carrito" => $carrito,
-        //     "items_carrito"=>$items_carrito
-        // ]);
-        return view("car_checkout");
+    function edit_item($id, Request $request) {
+
     }
 
     function remove_item($id, Request $request) {
