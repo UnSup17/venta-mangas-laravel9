@@ -15,8 +15,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {return redirect()->route('home');});
 
+Route::get('/login', [App\Http\Controllers\AuthController::class, 'form_login'])->name('form_login');
+Route::post('/authLogin', [App\Http\Controllers\AuthController::class, 'login'])->name('login');
+Route::get('/register', [App\Http\Controllers\AuthController::class, 'form_register'])->name('form_register');
+Route::post('/authRegister', [App\Http\Controllers\AuthController::class, 'register'])->name('register');
+Route::get('logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+
 Route::get('/home', [App\Http\Controllers\InicioController::class, 'home'])->name('home');
-Route::get('/mangas', [App\Http\Controllers\MangasController::class, 'list'])->name('mangas');
+Route::get('/mangas', [App\Http\Controllers\MangasController::class, 'list'])->name('admin_mangas');
 
 Route::get('/mangas/añadir', [App\Http\Controllers\MangasController::class, 'form_create'])->name('form_create_manga');
 Route::post('/create_manga', [App\Http\Controllers\MangasController::class, 'create'])->name('create_manga');

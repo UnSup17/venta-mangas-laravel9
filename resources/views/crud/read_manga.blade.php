@@ -2,17 +2,6 @@
 @section('content')
     <section class="container dialog-content">
         <section class="card">
-            @if (session('success'))
-                <div class="alert alert-success alert-block m-0">
-                    <button onclick="this.parentElement.style.display = 'none'" id="alert-btn" data-dismiss="alert" class="btn position-absolute top-50 translate-middle end-0">
-                        <i class="fa-solid fa-times"></i>
-                    </button>
-                    <strong>{{ session('success') }}</strong>
-                </div>
-                @php
-                    session()->forget('success');
-                @endphp
-            @endif
             <section class="modal-header">
                 <h5 class="modal-title"><b>{{ $info_manga->name }}</b></h5>
             </section>
@@ -104,11 +93,6 @@
                                 </div>
                             @endforeach
                         </section>
-                        <br>
-                        <a class="boton-carrito boton-eliminar btn" href="{{ route('delete_car') }}">
-                            <i class="fa-solid fa-times"></i>
-                            Eliminar Carrito
-                        </a>
                     </section>
                 </section>
             </section>

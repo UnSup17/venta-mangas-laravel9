@@ -22,11 +22,6 @@
     <link href="{{ asset('css/main.css')}}" rel="stylesheet">
 </head>
 <body>
-    @if(session()->has('info'))
-        <div class="alert alert-success">
-            {{ session()->get('info') }}
-        </div>
-    @endif
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -47,24 +42,39 @@
                             </button>
                         </form>
                     </div>
-                    <div>
-                        <button data-bs-toggle="collapse" data-bs-target="#header_shopping_cart">
-                            <a href="{{ route('shopping', [])}}">
-                                <i class="fa-solid fa-cart-shopping"></i>
-                            </a>
-                        </button>
-                        <button>
-                            <i class="fa-solid fa-user-circle"></i>
-                        </button>
-                    </div>
+                    @if (!session()->has('user'))
+                        <div class="">
+                            <button>
+                                <a href="{{ route('form_login') }}" class="">Log in</a>
+                            </button>
+                            <button>
+                                <a href="{{ route('form_register') }}" class="">Register</a>
+                            </button>
+                        </div>
+                    @else
+                        <div>
+                            @if(session()->get('user')[0]->role == "admin")
+                                <button>
+                                    <a  href="{{ route('admin_mangas')}}">
+                                        <i class="fa-solid fa-user-circle"></i>
+                                    </a>
+                                </button>
+                            @endif
+                            <button>
+                                <a href="{{ route('shopping', [])}}">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </a>
+                            </button>
+                        </div>
+                    @endif
                 @endif
             </div>
         </nav>
 
         <main class="py-4">
-            @include('layouts.flash-messages')
             @yield('content')
         </main>
     </div>
+    @include('layouts.flash-messages')
 </body>
 </html>

@@ -31,7 +31,7 @@ class MangasController extends Controller
             "periodicity" => $data["periodicity"],
             "synopsis" => $data["synopsis"],
         ]);
-        return redirect()->route('mangas');
+        return redirect()->route('admin_mangas');
     }
 
     function read($id, $manga, Request $request)
@@ -70,7 +70,7 @@ class MangasController extends Controller
         } else {
             $mensaje = "No se pudo actualizar";
         }
-        return redirect()->route('mangas')->with('info', $mensaje);
+        return redirect()->route('admin_mangas')->with('info', $mensaje);
     }
 
     function delete($id, $manga)

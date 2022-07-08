@@ -29,25 +29,6 @@
                                     <i class="fa-solid fa-dollar-sign"></i>
                                     Precio: {{ $item->price }}
                                 </section>
-                                {{-- <section class="grey col-md-2 text-left">
-                                    <i class="fa-solid fa-list-ul"></i>
-                                    Cantidad: {{ $item->cantidad }}
-                                </section> --}}
-
-                                {{-- <form class="grey col-md-4 text-right strong" method="POST"
-                                    {{-- action="{{ route('edit_item', ['id' => $item->id]) }}"> >
-                                    @csrf
-                                    <i class="fa-solid fa-list-ul"></i>
-                                    Cantidad:
-                                    <input class="input-cantidad" type="number" name="item_quantity"
-                                        value= '{{ $item->cantidad }}' min="0" max="12">
-                                    <input type="hidden" name="item_id" value="{{ $item->id }}">
-                                    <a class="boton-carrito boton-editar btn" href="{{ route('edit_item', ['id'=>$item->id]) }}">
-                                        <i class="fa-solid fa-times"></i>
-                                        Editar
-                                    </a>
-                                </form>  --}}
-
                                 <form class="grey col-md-5 text-right strong" method="GET"
                                     action="{{ route('edit_item', ['manga' => $item->manga->name, 'id' => $item->id]) }}">
                                     @csrf
@@ -62,7 +43,6 @@
                                         Editar
                                     </button>
                                 </form>
-
                                 <section class="grey col-md-2 text-left">
                                     <a class="boton-carrito boton-eliminar btn" href="{{ route('remove_item', ['id'=>$item->id]) }}">
                                         <i class="fa-solid fa-times"></i>
@@ -110,10 +90,6 @@
                 </section>
                 <section>
                     <button><a href="{{ route('car_checkout', ['total' => $total, 'subtotal' => $subtotal])}}">Pagar</a></button>
-                    {{-- <form name="formulario" method="post" action="{{ route('car_checkout', ['total' => $total])}}">
-                        <!-- Datos del formulario -->
-                        <input type="submit" value="Pagar" />
-                    </form> --}}
                 </section>
             </section>
         </section>

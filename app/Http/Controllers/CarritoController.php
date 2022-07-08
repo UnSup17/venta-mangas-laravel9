@@ -74,7 +74,7 @@ class CarritoController extends Controller
     function car_checkout(Request $request) {
         $data = $request->all();
         $carrito = $request->session()->get('car');
-        $user_id = 1872322;
+        $user_id = 123312;
         $factura = Bill::create([
             'id' => $user_id,
             'subtotal' => $data['subtotal'],
@@ -87,10 +87,7 @@ class CarritoController extends Controller
                 'bill_id' => $factura->id,
                 'tome_id' => $item->id
             ])->tomes()->attach($item->id);
-            // Tome::findOrFail($item_id)->items()->attach();
         }
-        // $team = \App\Team::findOrFail($request->team_id);
-        // $team->teamMembers()->attach($request->members_id);
-        // User::findOrFail(1)->delete();
+        $request->session()->forget('car');
     }
 }
