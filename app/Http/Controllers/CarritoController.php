@@ -22,15 +22,34 @@ class CarritoController extends Controller
     }
 
     function list(Request $request) {
-        if (count($request->session()->get('car')) > 0) {
-            return view("car_checkout");
+        if ($request->session()->get('car') == null ||
+            count($request->session()->get('car')) == 0){
+                $request->session()->put('success', 'Carrito vacío, añada items');
+                return redirect()->route('home');
         }
-        $request->session()->put('success', 'Carrito vacío, añada items');
-        return redirect()->route('home');
+        $valor_productos = 0.0;
+        $valor_envio = 0;
+        $carrito = $request->session()->get('car');
+        foreach ($carrito as $posicion => $item) {
+            $valor_productos += ($item->price * $item->cantidad);
+        }
+        return view("car_checkout", [
+            "valor_productos"=>$valor_productos,
+            "valor_envio"=>$valor_envio
+        ]);
     }
 
     function edit_item($id, Request $request) {
-
+        $data = $request->all();
+        $carrito = $request->session()->get('car');
+        foreach ($carrito as $posicion => $item) {
+            if($item->id == $id) {
+                $carrito[$posicion]->cantidad = $data['item_quantity'];
+            }
+        }
+        $request->session()->put('car', $carrito);
+        $request->session()->put('success', 'Cantidad actualizada correctamente');
+        return back();
     }
 
     function remove_item($id, Request $request) {
@@ -42,9 +61,6 @@ class CarritoController extends Controller
         }
         $request->session()->put('car', $carrito);
         $request->session()->put('success', 'Eliminado correctamente');
-        foreach ($carrito as $posicion => $item) {
-            var_dump($item->id);
-        }
         return back();
     }
 

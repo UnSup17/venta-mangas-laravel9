@@ -33,8 +33,9 @@
                                     <i class="fa-solid fa-list-ul"></i>
                                     Cantidad: {{ $item->cantidad }}
                                 </section> --}}
-                                <form class="grey col-md-4 text-right strong" method="POST"
-                                    {{-- action="{{ route('edit_item', ['id' => $item->id]) }}"> --}}>
+
+                                {{-- <form class="grey col-md-4 text-right strong" method="POST"
+                                    {{-- action="{{ route('edit_item', ['id' => $item->id]) }}"> >
                                     @csrf
                                     <i class="fa-solid fa-list-ul"></i>
                                     Cantidad:
@@ -45,7 +46,23 @@
                                         <i class="fa-solid fa-times"></i>
                                         Editar
                                     </a>
+                                </form>  --}}
+
+                                <form class="grey col-md-5 text-right strong" method="GET"
+                                    action="{{ route('edit_item', ['manga' => $item->manga->name, 'id' => $item->id]) }}">
+                                    @csrf
+                                    <i class="fa-solid fa-list-ul"></i>
+                                    Cantidad:
+                                    <input class="input-cantidad" type="number" name="item_quantity"
+                                        value= '{{$item->cantidad}}'
+                                        min="1" max="12">
+                                    <input type="hidden" name="item_id" value="{{ $item->id }}">
+                                    <button type="submit" class="boton-carrito boton-editar btn">
+                                        <i class="fa-solid fa-times"></i>
+                                        Editar
+                                    </button>
                                 </form>
+
                                 <section class="grey col-md-2 text-left">
                                     <a class="boton-carrito boton-eliminar btn" href="{{ route('remove_item', ['id'=>$item->id]) }}">
                                         <i class="fa-solid fa-times"></i>
@@ -60,7 +77,31 @@
         </section>
         <section>
             <section class="card info-carrito">
-                Info carrito
+                <section>
+                    Resumen del pedido
+                </section>
+                <section class="resumen-orden">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Productos</td>
+                                <td>${{ $valor_productos }}</td>
+                            </tr>
+                            <tr>
+                                <td>Costo envío</td>
+                                <td>${{ $valor_envio }}</td>
+                            </tr>
+                            <tr>
+                                <td>Subtotal sin impuestos</td>
+                                <td>${{ $valor_productos + $valor_envio }}</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td>${{ number_format(($valor_productos + $valor_envio) * 1.19, 2) }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
             </section>
         </section>
     </section>
