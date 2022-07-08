@@ -53,8 +53,16 @@ return new class extends Migration
             $table->id();
             $table->double('subtotal', 10, 2);
             $table->double('total', 10, 2);
-            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
+
+            $table->foreignId('user_id')->constrained('users');
+        });
+
+        Schema::create('car', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+
+            $table->foreignId('user_id')->constrained('users');
         });
 
         Schema::create('items', function (Blueprint $table) {
@@ -62,7 +70,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->timestamps();
 
-            $table->foreignId('bill_id')->constrained('bills');
+            $table->foreignId('car_id')->constrained('car');
         });
 
         Schema::create('item_tome', function (Blueprint $table) {

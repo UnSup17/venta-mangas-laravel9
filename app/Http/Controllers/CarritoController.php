@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 class CarritoController extends Controller
 {
     function add_item($id, Request $request) {
+        if(!session()->has('user')) {
+            $request->session()->put('warning', 'Debes iniciar sesion para agregar items a un carrito');
+            return redirect()->route('form_login');
+        }
         $data = $request->all();
         $tomo = Tome::find($id);
         $tomo['cantidad'] = intval($data['item_quantity']);
@@ -26,7 +30,7 @@ class CarritoController extends Controller
     function list(Request $request) {
         if ($request->session()->get('car') == null ||
             count($request->session()->get('car')) == 0){
-                $request->session()->put('success', 'Carrito vacío, añada items');
+                $request->session()->put('warning', 'Carrito vacío, añada items');
                 return redirect()->route('home');
         }
         $valor_productos = 0.0;
@@ -61,7 +65,11 @@ class CarritoController extends Controller
                 unset($carrito[$posicion]);
             }
         }
-        $request->session()->put('car', $carrito);
+        if (count($carrito) == 0) {
+            $request->session()->forget('car');
+        } else {
+            $request->session()->put('car', $carrito);
+        }
         $request->session()->put('success', 'Eliminado correctamente');
         return back();
     }

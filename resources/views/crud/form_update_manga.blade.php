@@ -19,8 +19,8 @@
                 </div>
                 <div class="form-floating mb-3">
                     <select class="form-select" name="state" value="{{$info_manga->state}}">
-                      <option value="Emision">En emision</option>
-                      <option value="Finalizado">Finalizado</option>
+                      <option value="broadcast">En emision</option>
+                      <option value="finished">Finalizado</option>
                     </select>
                     <label>Estado de publicación</label>
                 </div>

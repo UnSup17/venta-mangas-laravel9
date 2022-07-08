@@ -25,48 +25,57 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                @if (Route::currentRouteName() == "/dashboard")
-                @else
+                <div>
+                    <a class="navbar-brand" href="{{ route('home') }}">
+                        <i class="fa-solid fa-book-open"></i>
+                        <b>MisMangas</b>
+                    </a>
+                </div>
+                <div>
+                    <form action="{{ route('home') }}" method="get">
+                        @csrf
+                        <input class="barra-busqueda" type="text" name="manga_name">
+                        <button type="submit">
+                            <i class="fa-solid fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+                @if (session()->has('user'))
                     <div>
-                        <a class="navbar-brand" href="{{ url('/home') }}">
-                            <i class="fa-solid fa-book-open"></i>
-                            <b>MisMangas</b>
-                        </a>
+                        <i class="fa-solid fa-user"></i>
+                        <b>{{ session()->get('user')[0]->name }}</b>
                     </div>
-                    <div>
-                        <form action="{{ route('home') }}" method="get">
-                            @csrf
-                            <input class="barra-busqueda" type="text" name="manga_name">
-                            <button type="submit">
-                                <i class="fa-solid fa-search"></i>
-                            </button>
-                        </form>
-                    </div>
-                    @if (!session()->has('user'))
-                        <div class="">
-                            <button>
-                                <a href="{{ route('form_login') }}" class="">Log in</a>
-                            </button>
-                            <button>
-                                <a href="{{ route('form_register') }}" class="">Register</a>
-                            </button>
-                        </div>
-                    @else
-                        <div>
-                            @if(session()->get('user')[0]->role == "admin")
-                                <button>
-                                    <a  href="{{ route('admin_mangas')}}">
-                                        <i class="fa-solid fa-user-circle"></i>
-                                    </a>
-                                </button>
-                            @endif
-                            <button>
-                                <a href="{{ route('shopping', [])}}">
-                                    <i class="fa-solid fa-cart-shopping"></i>
+                    <div class="d-flex">
+                        <button>
+                            <a href="{{ route('shopping', [])}}">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                @if(session()->has('car'))
+                                    {{ count(session()->get('car')) }}
+                                @endif
+                            </a>
+                        </button>
+                        @if(session()->get('user')[0]->role == "admin")
+                            <button class="">
+                                <a  href="{{ route('admin_mangas')}}">
+                                    <i class="fa-solid fa-gear"></i>
                                 </a>
                             </button>
-                        </div>
-                    @endif
+                        @endif
+                        <button class="">
+                            <a  href="{{ route('logout')}}">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                            </a>
+                        </button>
+                    </div>
+                @else
+                    <div>
+                        <button>
+                            <a href="{{ route('form_login') }}" class="">Log in</a>
+                        </button>
+                        <button>
+                            <a href="{{ route('form_register') }}" class="">Register</a>
+                        </button>
+                    </div>
                 @endif
             </div>
         </nav>

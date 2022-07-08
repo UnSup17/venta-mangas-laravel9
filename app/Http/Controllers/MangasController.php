@@ -66,11 +66,11 @@ class MangasController extends Controller
             "synopsis" => $data["synopsis"]
         ]);
         if ($ret) {
-            $mensaje = "Se actualizó con éxito";
+            $request->session()->put('success', 'Agregado correctamente');
         } else {
-            $mensaje = "No se pudo actualizar";
+            $request->session()->put('error', "No se pudo actualizar");
         }
-        return redirect()->route('admin_mangas')->with('info', $mensaje);
+        return redirect()->route('admin_mangas');
     }
 
     function delete($id, $manga)
@@ -81,6 +81,6 @@ class MangasController extends Controller
         } else {
             $mensaje = "No se pudo eliminar";
         }
-        return redirect()->route('mangas')->with('info', $mensaje);
+        return redirect()->route('admin_mangas')->with('info', $mensaje);
     }
 }
