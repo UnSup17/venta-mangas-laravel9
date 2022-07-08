@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tome;
+use App\Models\Bill;
+use App\Models\Item;
 use Illuminate\Http\Request;
 
 class CarritoController extends Controller
@@ -67,5 +69,28 @@ class CarritoController extends Controller
     function delete_car(Request $request) {
         $request->session()->forget('car');
         return back();
+    }
+
+    function car_checkout(Request $request) {
+        $data = $request->all();
+        $carrito = $request->session()->get('car');
+        $user_id = 1872322;
+        $factura = Bill::create([
+            'id' => $user_id,
+            'subtotal' => $data['subtotal'],
+            'total' => $data['total'],
+            'user_id' => 1
+        ]);
+        foreach ($carrito as $posicion => $item) {
+            Item::create([
+                'quantity' => $item->cantidad,
+                'bill_id' => $factura->id,
+                'tome_id' => $item->id
+            ])->tomes()->attach($item->id);
+            // Tome::findOrFail($item_id)->items()->attach();
+        }
+        // $team = \App\Team::findOrFail($request->team_id);
+        // $team->teamMembers()->attach($request->members_id);
+        // User::findOrFail(1)->delete();
     }
 }

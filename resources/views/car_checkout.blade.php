@@ -93,14 +93,27 @@
                             </tr>
                             <tr>
                                 <td>Subtotal sin impuestos</td>
-                                <td>${{ $valor_productos + $valor_envio }}</td>
+                                @php
+                                    $subtotal = $valor_productos + $valor_envio
+                                @endphp
+                                <td>${{ $subtotal }}</td>
                             </tr>
                             <tr>
                                 <td>Total</td>
-                                <td>${{ number_format(($valor_productos + $valor_envio) * 1.19, 2) }}</td>
+                                @php
+                                    $total = number_format(($valor_productos + $valor_envio) * 1.19, 2);
+                                @endphp
+                                <td>${{ $total }}</td>
                             </tr>
                         </tbody>
                     </table>
+                </section>
+                <section>
+                    <button><a href="{{ route('car_checkout', ['total' => $total, 'subtotal' => $subtotal])}}">Pagar</a></button>
+                    {{-- <form name="formulario" method="post" action="{{ route('car_checkout', ['total' => $total])}}">
+                        <!-- Datos del formulario -->
+                        <input type="submit" value="Pagar" />
+                    </form> --}}
                 </section>
             </section>
         </section>

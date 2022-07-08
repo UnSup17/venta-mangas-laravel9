@@ -53,16 +53,20 @@ return new class extends Migration
             $table->id();
             $table->double('subtotal', 10, 2);
             $table->double('total', 10, 2);
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
 
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->integer('quantity');
-            $table->double('item_price', 10, 2);
             $table->timestamps();
 
             $table->foreignId('bill_id')->constrained('bills');
+        });
+
+        Schema::create('item_tome', function (Blueprint $table) {
+            $table->foreignId('item_id')->constrained('items');
             $table->foreignId('tome_id')->constrained('tomes');
         });
 

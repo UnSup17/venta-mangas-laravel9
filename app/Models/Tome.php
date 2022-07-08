@@ -15,6 +15,11 @@ class Tome extends Model
         return $this->belongsTo(Manga::class);
     }
 
+    public function items()
+    {
+        return $this->belongsToMany(Item::class, 'item_tome');
+    }
+
     protected $fillable = [
         'id',
         'number_tome',
