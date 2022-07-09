@@ -137,6 +137,11 @@ button a {
   background-color: rgb(235, 97, 33);
 }
 
+.boton-eliminar-carro {
+  background-color: darkslategray;
+  color: whitesmoke;
+}
+
 .boton-agregar {
   background-color: darkcyan;
   color: whitesmoke;
@@ -182,6 +187,14 @@ button a {
   background-color: burlywood;
 }
 
+.boton-pagar {
+  background-color: darkkhaki;
+}
+
 .centrar-texto {
   text-align: right;
+}
+
+.centrar {
+  text-align: -webkit-center;
 }/*# sourceMappingURL=main.css.map */

@@ -44,34 +44,36 @@
                             <b>Sinopsis:</b><br>{{ $info_manga->synopsis }}<br><br>
                         </section>
                         <section class="lista-overflow">
-                            @foreach ($lista_tomos as $item)
+                            @foreach ($lista_tomos as $tomo)
                                 @php
                                     $flag = false;
-                                    $car = session()->get('car');
-                                    if (null !== $car) {
-                                        foreach ($car as $posicion => $tomo) {
-                                            if($tomo->id == $item->id) {
-                                                $flag = true;
-                                                $cantidad = $tomo->cantidad;
+                                    if (session()->has('car')) {
+                                        $carrito_array_items = session()->get('car')->items;
+                                        if (count($carrito_array_items) > 0) {
+                                            foreach ($carrito_array_items as $item_in_car) {
+                                                if ($tomo->id == $item_in_car->tome->id){
+                                                    $flag = true;
+                                                    $cantidad = $item_in_car->quantity;
+                                                }
                                             }
                                         }
                                     }
                                 @endphp
                                 <div class="d-flex info-tomo">
-                                    <div class="grey col-md-2 text-left strong">Capítulo: {{ $item->number_tome }}</div>
+                                    <div class="grey col-md-2 text-left strong">Capítulo: {{ $tomo->number_tome }}</div>
                                     <div class="grey col-md-2 text-left">
                                         <i class="fa-solid fa-list-ul"></i>
-                                        Páginas: {{ $item->number_pages }}
+                                        Páginas: {{ $tomo->number_pages }}
                                     </div>
                                     <div class="grey col-md-3 text-left">
                                         <i class="fa-solid fa-dollar-sign"></i>
-                                        Precio: {{ $item->price }}
+                                        Precio: {{ $tomo->price }}
                                     </div>
                                     <form class="grey col-md-5 text-right strong" method="POST"
-                                        action="{{ route('add_item', ['manga' => $info_manga->name, 'id' => $item->id]) }}">
+                                        action="{{ route('add_item', ['manga' => $info_manga->name, 'id' => $tomo->id]) }}">
                                         @csrf
                                         @if($flag)
-                                            <a class="boton-carrito boton-eliminar btn" href="{{ route('remove_item', ['id'=>$item->id]) }}">
+                                            <a class="boton-carrito boton-eliminar btn" href="{{ route('remove_item', ['id'=>$tomo->id]) }}">
                                                 <i class="fa-solid fa-times"></i>
                                                 Eliminar
                                             </a>
@@ -88,7 +90,7 @@
                                                 value= '1'
                                             @endif
                                             min="1" max="12">
-                                        <input type="hidden" name="item_id" value="{{ $item->id }}">
+                                        <input type="hidden" name="item_id" value="{{ $tomo->id }}">
                                     </form>
                                 </div>
                             @endforeach

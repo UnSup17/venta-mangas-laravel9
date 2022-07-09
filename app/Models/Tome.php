@@ -17,7 +17,7 @@ class Tome extends Model
 
     public function items()
     {
-        return $this->belongsToMany(Item::class, 'item_tome');
+        return $this->hasMany(Item::class, 'item_id');
     }
 
     protected $fillable = [

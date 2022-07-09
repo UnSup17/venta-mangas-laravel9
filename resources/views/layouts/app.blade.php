@@ -49,9 +49,7 @@
                         <button>
                             <a href="{{ route('shopping', [])}}">
                                 <i class="fa-solid fa-cart-shopping"></i>
-                                @if(session()->has('car'))
-                                    {{ count(session()->get('car')) }}
-                                @endif
+                                {{ count(session()->get('car')->items) }}
                             </a>
                         </button>
                         @if(session()->get('user')[0]->role == "admin")

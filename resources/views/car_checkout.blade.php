@@ -6,52 +6,62 @@
             <section class="pb-1">
                 <section class="mt-4 mb-4 item-car">
                     @php
-                        $items_carrito = session()->get('car');
+                        $carrito_array_items = session()->get('car')->items;
                     @endphp
-                    @if(empty($items_carrito))
+                    {{-- @if(empty($carrito_array_items))
                         <section class="mensaje-carrito-vacio">
                             <section>Carrito vacio</section>
                         </section>
-                    @else
-                        @foreach ($items_carrito as $item)
-                            @php
+                    @else --}}
+                        @foreach ($carrito_array_items as $item_in_car)
+                            {{-- @php
                                 $flag = false;
                                 if(array_key_exists($item->id, session()->get('car'))) $flag = true
-                            @endphp
+                            @endphp --}}
                             <section class="d-flex info-tomo">
                                 <section class="miniatura-tomo-carrito">
-                                    <img src="{{$item->manga->url_portrait}}" alt="Portada_manga">
+                                    <img src="{{$item_in_car->tome->manga->url_portrait}}" alt="Portada_manga">
                                 </section>
                                 <section class="grey col-md-2 text-left">
-                                    Capítulo: {{ $item->number_tome }}
+                                    Capítulo: {{ $item_in_car->tome->number_tome }}
                                 </section>
                                 <section class="grey col-md-2 text-left">
                                     <i class="fa-solid fa-dollar-sign"></i>
-                                    Precio: {{ $item->price }}
+                                    Precio: {{ $item_in_car->tome->price }}
                                 </section>
-                                <form class="grey col-md-5 text-right strong" method="GET"
-                                    action="{{ route('edit_item', ['manga' => $item->manga->name, 'id' => $item->id]) }}">
+
+                                <form class="grey col-md-4 text-right strong" method="GET"
+                                    action="{{ route('edit_item', ['id' => $item_in_car->id]) }}">
                                     @csrf
                                     <i class="fa-solid fa-list-ul"></i>
                                     Cantidad:
                                     <input class="input-cantidad" type="number" name="item_quantity"
-                                        value= '{{$item->cantidad}}'
+                                        value= '{{$item_in_car->quantity}}'
                                         min="1" max="12">
-                                    <input type="hidden" name="item_id" value="{{ $item->id }}">
+                                    <input type="hidden" name="item_id" value="{{ $item_in_car->id }}">
                                     <button type="submit" class="boton-carrito boton-editar btn">
-                                        <i class="fa-solid fa-times"></i>
+                                        <i class="fa-solid fa-pen-to-square"></i>
                                         Editar
                                     </button>
                                 </form>
+
                                 <section class="grey col-md-2 text-left">
-                                    <a class="boton-carrito boton-eliminar btn" href="{{ route('remove_item', ['id'=>$item->id]) }}">
+                                    <a class="boton-carrito boton-eliminar btn" href="{{ route('remove_item', ['id'=>$item_in_car->id]) }}">
                                         <i class="fa-solid fa-times"></i>
                                         Eliminar
                                     </a>
                                 </section>
                             </section>
                         @endforeach
-                    @endif
+                    {{-- @endif --}}
+                </section>
+                <section class="container centrar mb-4">
+                    <section class="grey col-md-2 text-left">
+                        <a class="boton-carrito boton-eliminar-carro btn" href="{{ route('delete_car') }}">
+                            <i class="fa-solid fa-trash"></i>
+                            Eliminar Carrito
+                        </a>
+                    </section>
                 </section>
             </section>
         </section>
@@ -89,7 +99,11 @@
                     </table>
                 </section>
                 <section>
-                    <button><a href="{{ route('car_checkout', ['total' => $total, 'subtotal' => $subtotal])}}">Pagar</a></button>
+                    <button class="boton-pagar">
+                        <a href="{{ route('car_checkout', ['total' => $total, 'subtotal' => $subtotal])}}">
+                            Pagar
+                        </a>
+                    </button>
                 </section>
             </section>
         </section>

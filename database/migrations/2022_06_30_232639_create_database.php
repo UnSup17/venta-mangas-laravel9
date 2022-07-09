@@ -49,16 +49,7 @@ return new class extends Migration
             $table->foreignId('manga_id')->constrained('mangas');
         });
 
-        Schema::create('bills', function (Blueprint $table) {
-            $table->id();
-            $table->double('subtotal', 10, 2);
-            $table->double('total', 10, 2);
-            $table->timestamps();
-
-            $table->foreignId('user_id')->constrained('users');
-        });
-
-        Schema::create('car', function (Blueprint $table) {
+        Schema::create('cars', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
 
@@ -70,12 +61,26 @@ return new class extends Migration
             $table->integer('quantity');
             $table->timestamps();
 
-            $table->foreignId('car_id')->constrained('car');
+            $table->foreignId('car_id')->constrained('cars');
+            $table->foreignId('tome_id')->constrained('tomes');
         });
 
-        Schema::create('item_tome', function (Blueprint $table) {
-            $table->foreignId('item_id')->constrained('items');
-            $table->foreignId('tome_id')->constrained('tomes');
+        Schema::create('bills', function (Blueprint $table) {
+            $table->id();
+            $table->double('subtotal', 10, 2);
+            $table->double('total', 10, 2);
+            $table->timestamps();
+
+            $table->foreignId('user_id')->constrained('users');
+        });
+
+        Schema::create('registers', function (Blueprint $table) {
+            $table->id();
+            $table->integer('quantity');
+            $table->integer('tome_id');
+            $table->timestamps();
+
+            $table->foreignId('bill_id')->constrained('bills');
         });
 
         Schema::create('author_manga', function (Blueprint $table) {
@@ -96,13 +101,5 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('manga');
-        Schema::dropIfExists('gender');
-        Schema::dropIfExists('gender_manga');
-        Schema::dropIfExists('author');
-        Schema::dropIfExists('author_manga');
-        Schema::dropIfExists('tome');
-        Schema::dropIfExists('bill_item');
-        Schema::dropIfExists('bill');
     }
 };

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Tome;
 use App\Models\Bill;
 use App\Models\Item;
+use App\Models\Car;
+use App\Models\Register;
 use Illuminate\Http\Request;
 
 class CarritoController extends Controller
@@ -15,29 +17,26 @@ class CarritoController extends Controller
             return redirect()->route('form_login');
         }
         $data = $request->all();
-        $tomo = Tome::find($id);
-        $tomo['cantidad'] = intval($data['item_quantity']);
-        $carrito = [];
-        if ($request->session()->has('car')){
-            $carrito = $request->session()->get('car');
-        }
-        array_push($carrito, $tomo);
-        $request->session()->put('car', $carrito);
+        Item::create([
+            'quantity' => intval($data['item_quantity']),
+            'car_id' => $request->session()->get('car')->id,
+            'tome_id' => $id
+        ]);
+        $request->session()->put('car', Car::find($request->session()->get('car')->id));
         $request->session()->put('success', 'Agregado correctamente');
         return back();
     }
 
     function list(Request $request) {
-        if ($request->session()->get('car') == null ||
-            count($request->session()->get('car')) == 0){
-                $request->session()->put('warning', 'Carrito vacío, añada items');
-                return redirect()->route('home');
+        $carrito_array_items = $request->session()->get('car')->items;
+        if (count($carrito_array_items) == 0){
+            $request->session()->put('warning', 'Carrito vacío, añada items');
+            return back();
         }
         $valor_productos = 0.0;
         $valor_envio = 0;
-        $carrito = $request->session()->get('car');
-        foreach ($carrito as $posicion => $item) {
-            $valor_productos += ($item->price * $item->cantidad);
+        foreach ($carrito_array_items as $item_in_car) {
+            $valor_productos += ($item_in_car->quantity * $item_in_car->tome->price);
         }
         return view("car_checkout", [
             "valor_productos"=>$valor_productos,
@@ -47,55 +46,56 @@ class CarritoController extends Controller
 
     function edit_item($id, Request $request) {
         $data = $request->all();
-        $carrito = $request->session()->get('car');
-        foreach ($carrito as $posicion => $item) {
-            if($item->id == $id) {
-                $carrito[$posicion]->cantidad = $data['item_quantity'];
-            }
-        }
-        $request->session()->put('car', $carrito);
+        $item_to_edit = Item::find($id);
+        $item_to_edit->quantity = $data['item_quantity'];
+        $item_to_edit->save();
+        $request->session()->put('car', Car::find(session()->get('car')->id));
         $request->session()->put('success', 'Cantidad actualizada correctamente');
         return back();
     }
 
     function remove_item($id, Request $request) {
-        $carrito = $request->session()->get('car');
-        foreach ($carrito as $posicion => $item) {
-            if($item->id == $id) {
-                unset($carrito[$posicion]);
-            }
-        }
-        if (count($carrito) == 0) {
-            $request->session()->forget('car');
-        } else {
-            $request->session()->put('car', $carrito);
-        }
+        Item::destroy($id);
+        $request->session()->put('car', Car::find(session()->get('car')->id));
         $request->session()->put('success', 'Eliminado correctamente');
         return back();
     }
 
     function delete_car(Request $request) {
-        $request->session()->forget('car');
-        return back();
+        foreach ($request->session()->get('car')->items as $item_in_car) {
+            Item::destroy($item_in_car->id);
+        }
+        $request->session()->put('car', Car::find(session()->get('car')->id));
+        $request->session()->put('success', 'Carrito eliminado');
+        return redirect()->route('home');
     }
 
     function car_checkout(Request $request) {
         $data = $request->all();
-        $carrito = $request->session()->get('car');
-        $user_id = 123312;
-        $factura = Bill::create([
-            'id' => $user_id,
+        $usuario_id = $request->session()->get('user')[0]->id;
+        $id_factura = intval(strval($usuario_id).date('dmoGis'));
+        $carrito_array_items = $request->session()->get('car')->items;
+
+        Bill::create([
+            'id' => $id_factura,
             'subtotal' => $data['subtotal'],
             'total' => $data['total'],
-            'user_id' => 1
+            'user_id' => $usuario_id
         ]);
-        foreach ($carrito as $posicion => $item) {
-            Item::create([
-                'quantity' => $item->cantidad,
-                'bill_id' => $factura->id,
-                'tome_id' => $item->id
-            ])->tomes()->attach($item->id);
+
+        foreach ($carrito_array_items as $item_in_car) {
+            Register::create([
+                'quantity' => $item_in_car->quantity,
+                'tome_id' => $item_in_car->tome->id,
+                'bill_id' => $id_factura,
+            ]);
         }
-        $request->session()->forget('car');
+
+        foreach ($carrito_array_items as $item_in_car) {
+            Item::destroy($item_in_car->id);
+        }
+        $request->session()->put('car', Car::find(session()->get('car')->id));
+        $request->session()->put('success', 'Compra registrada');
+        return redirect()->route('home');
     }
 }

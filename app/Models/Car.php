@@ -5,18 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Bill extends Model
+class Car extends Model
 {
     use HasFactory;
 
-    public function registers() {
-        return $this->hasMany(Register::class);
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function items() {
+        return $this->hasMany(Item::class);
     }
 
     protected $fillable = [
-        'id',
-        'subtotal',
-        'total',
         'user_id'
     ];
 }

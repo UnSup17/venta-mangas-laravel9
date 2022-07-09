@@ -5,21 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Item extends Model
+class Register extends Model
 {
     use HasFactory;
 
-    public function car() {
-        return $this->belongsTo(Car::class, 'item_id');
-    }
-
-    public function tome() {
-        return $this->belongsTo(Tome::class, 'tome_id');
+    public function bill() {
+        return $this->belongsTo(Bill::class, 'register_id');
     }
 
     protected $fillable = [
         'quantity',
         'tome_id',
-        'car_id'
+        'bill_id'
     ];
 }

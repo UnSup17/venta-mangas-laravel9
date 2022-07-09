@@ -10,8 +10,16 @@ use App\Models\Tome;
 
 class MangasController extends Controller
 {
-    function list()
+    function list(Request $request)
     {
+        if (!$request->session()->has('user')){
+            $request->session()->put('error', '??? qué intentas?');
+                return redirect()->route('home');
+        }
+        if ($request->session()->get('user')[0]->role != 'admin') {
+            $request->session()->put('error', '??? qué intentas?');
+            return redirect()->route('home');
+        }
         $list_mangas = DB::table('mangas')->select('*')->get();
         return view("crud.biblioteca", ["list_mangas" => $list_mangas]);
     }
