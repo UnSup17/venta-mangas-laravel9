@@ -56,7 +56,13 @@ class CarritoController extends Controller
 
     function remove_item($id, Request $request) {
         Item::destroy($id);
-        $request->session()->put('car', Car::find(session()->get('car')->id));
+        $nuevo_carrito = Car::find(session()->get('car')->id);
+        $request->session()->put('car', $nuevo_carrito);
+
+        if (count($nuevo_carrito->items) == 0) {
+            $request->session()->put('success', 'Has eliminado todo tu carrito');
+            return redirect()->route('home');
+        }
         $request->session()->put('success', 'Eliminado correctamente');
         return back();
     }

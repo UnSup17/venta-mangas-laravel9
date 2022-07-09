@@ -54,6 +54,7 @@
                                                 if ($tomo->id == $item_in_car->tome->id){
                                                     $flag = true;
                                                     $cantidad = $item_in_car->quantity;
+                                                    $item_id = $item_in_car->id;
                                                 }
                                             }
                                         }
@@ -73,7 +74,7 @@
                                         action="{{ route('add_item', ['manga' => $info_manga->name, 'id' => $tomo->id]) }}">
                                         @csrf
                                         @if($flag)
-                                            <a class="boton-carrito boton-eliminar btn" href="{{ route('remove_item', ['id'=>$tomo->id]) }}">
+                                            <a class="boton-carrito boton-eliminar btn" href="{{ route('remove_item', ['id'=>$item_id]) }}">
                                                 <i class="fa-solid fa-times"></i>
                                                 Eliminar
                                             </a>

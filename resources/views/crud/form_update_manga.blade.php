@@ -3,12 +3,15 @@
 <section class="container dialog-content">
     <section class="card">
         <section class="modal-header">
-            <h5 class="modal-title">Agregar manga</h5>
+            <h4 class="modal-title">Actualizar información {{ $info_manga->name }}</h4>
         </section>
         <section class="modal-body">
             <form method="POST" action="{{route('update_manga')}}">
                 <input type="hidden" name="id" value="{{$info_manga->id}}">
                 @csrf
+                <section>
+                    <h4>Información Manga</h4>
+                </section>
                 <div class="form-floating mb-3">
                     <input type="text" name="name" class="form-control" placeholder="." value="{{$info_manga->name}}">
                     <label>Nombre</label>
@@ -38,12 +41,21 @@
                     <label>Estado de publicación</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <textarea style="height: 300px" name="synopsis" class="form-control" placeholder=".">{{$info_manga->synopsis}}</textarea>
+                    <textarea style="height: 150px" name="synopsis" class="form-control" placeholder=".">{{$info_manga->synopsis}}</textarea>
                     <label>Sinopsis</label>
                 </div>
                 <div class="input-group">
                     <input class="form-control" type="submit" value="Actualizar manga">
                 </div>
+                <br>
+                <section>
+                    <h4>Información Tomos</h4>
+                </section>
+
+                <a class="boton-agregar btn" href="{{ route('administrartomos', ["id" => $info_manga]) }}">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    Editar informacion tomos
+                </a>
             </form>
         </section>
     </section>

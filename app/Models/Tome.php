@@ -26,6 +26,7 @@ class Tome extends Model
         'published_at',
         'number_pages',
         'price',
+        'manga_id'
     ];
 
     public static function get_ids_carrito(Request $request) {

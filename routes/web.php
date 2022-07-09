@@ -40,3 +40,11 @@ Route::get('/mangas/actualizar/{id}-{manga}', [App\Http\Controllers\MangasContro
 Route::post('/update_manga', [App\Http\Controllers\MangasController::class, 'update'])->name('update_manga');
 
 Route::get('/mangas/{id}-{manga}', [App\Http\Controllers\MangasController::class, 'delete'])->name('delete_manga');
+
+Route::get('/tomos/leer/{id}', [App\Http\Controllers\TomesController::class, 'list'])->name('administrartomos');
+Route::get('/tomos/add/{id}', [App\Http\Controllers\TomesController::class, 'form_add'])->name('form_add_tomo');
+Route::post('/add_tomo/{id}', [App\Http\Controllers\TomesController::class, 'add'])->name('add_tomo');
+
+Route::get('/tomos/actualizar/{id}', [App\Http\Controllers\TomesController::class, 'form_update'])->name('form_update_tomo');
+Route::post('/tomos/actualizando/{id}', [App\Http\Controllers\TomesController::class, 'update'])->name('update_tomo');
+Route::get('/tomos/eliminar/{id}', [App\Http\Controllers\TomesController::class, 'delete'])->name('delete_tomo');

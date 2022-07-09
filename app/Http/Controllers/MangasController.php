@@ -20,8 +20,7 @@ class MangasController extends Controller
             $request->session()->put('error', '??? qué intentas?');
             return redirect()->route('home');
         }
-        $list_mangas = DB::table('mangas')->select('*')->get();
-        return view("crud.biblioteca", ["list_mangas" => $list_mangas]);
+        return view("crud.biblioteca", ["list_mangas" => Manga::all()]);
     }
 
     function form_create()
@@ -42,11 +41,11 @@ class MangasController extends Controller
         return redirect()->route('admin_mangas');
     }
 
-    function read($id, $manga, Request $request)
+    function read($id)
     {
         $info_manga = Manga::find($id);
         $info_manga->published_at = explode("-", $info_manga->published_at)[0];
-        $lista_tomos = Tome::where('manga_id', $id)->orderBy('id', 'desc')->get();
+        $lista_tomos = $info_manga->tomes()->orderBy('id', 'desc')->get();
         $creadores = $info_manga->authors()->get();
         $genders = $info_manga->genders()->get();
         return view("crud.read_manga", [
@@ -57,38 +56,34 @@ class MangasController extends Controller
         ]);
     }
 
-    function form_update($id, $manga)
+    function form_update($id)
     {
-        $info_manga = DB::table('mangas')->where('id', $id)->first();
-        return view("crud.form_update_manga", ["info_manga" => $info_manga]);
+        return view("crud.form_update_manga", ["info_manga" => Manga::find($id)]);
     }
     function update(Request $request)
     {
         $data = $request->all();
-        $ret = DB::table("mangas")->where('id', $data['id'])->update([
-            "name" => $data["name"],
-            "url_portrait" => $data["url_portrait"],
-            "state" => $data["state"],
-            "published_at" => $data["published_at"],
-            "periodicity" => $data["periodicity"],
-            "synopsis" => $data["synopsis"]
-        ]);
-        if ($ret) {
-            $request->session()->put('success', 'Agregado correctamente');
-        } else {
-            $request->session()->put('error', "No se pudo actualizar");
-        }
+
+        $this->aux_update_manga_info($data);
+
+        $request->session()->put('success', 'Agregado correctamente');
         return redirect()->route('admin_mangas');
     }
 
-    function delete($id, $manga)
+    static function aux_update_manga_info($data) {
+        $manga_updated = Manga::find($data['id']);
+        $manga_updated->name = $data["name"];
+        $manga_updated->url_portrait = $data["url_portrait"];
+        $manga_updated->state = $data["state"];
+        $manga_updated->published_at = $data["published_at"];
+        $manga_updated->periodicity = $data["periodicity"];
+        $manga_updated->synopsis = $data["synopsis"];
+        $manga_updated->save();
+    }
+
+    function delete($id)
     {
-        $ret = DB::table("mangas")->where("id", $id)->delete();
-        if ($ret) {
-            $mensaje = "Se elimino con éxito";
-        } else {
-            $mensaje = "No se pudo eliminar";
-        }
-        return redirect()->route('admin_mangas')->with('info', $mensaje);
+        Manga::destroy($id);
+        return redirect()->route('admin_mangas')->with('info', "Se elimino con éxito");
     }
 }
